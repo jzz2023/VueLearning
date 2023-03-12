@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>事件修饰符</title>
+	<script src="../js/vue.js"></script>
+	<style>
+		* {
+			margin-top: 15px;
+		}
+
+		#demo1 {
+			height: 40px;
+			background-color: skyblue;
+		}
+		#box1{
+			background-color: skyblue;
+		}
+		#box2{
+			background-color: orange;
+		}
+		.list{
+			width: 200px;
+			height: 200px;
+			background-color: aqua;
+			overflow: auto;
+		}
+		li{
+			height: 100px;
+		}
+	</style>
+</head>
+
+<body>
+	<!-- 
+			Vue中的事件修饰符：
+			1.prevent:阻止默认事件（常用）
+			2,stop:阻止事件冒泡（常用）：
+			3.once:事件只触发一次（常用）：
+			4.capture:使用事件的捕获模式：
+			5,self:只有event,target是当前操作的元素时才触发事件：
+			6,passive:事件的默认行为立即执行，无需等待事件回调执行完毕：
+		 -->
+	<div id="root">
+		<h2>欢迎来到{{name}}学习</h2>
+		<!-- 事件阻止符 -->
+		<a href="http://www.atguigu.com" @click.prevent="showInfo">点我</a>
+
+		<div id="demo1" @click="showInfo">
+			<!-- 修饰符可以连续写 -->
+			<button @click.stop="showInfo">点我提示信息</button>
+		</div>
+
+		<!-- 事件只触发一次 -->
+		<button @click.once="showInfo">点我提示信息</button>
+
+		<div id="box1" @click.capture="showMsg(1)">
+			div1
+			<div id="box2" @click="showMsg(2)">
+				div2
+			</div>
+		</div>
+		
+		<div id="demo1" @click.self="showInfo">
+			<button @click="showInfo">点我提示信息</button>
+		</div>
+		
+		<ul class="list" @wheel.passive="demo">
+			<li>1</li>
+			<li>2</li>
+			<li>3</li>
+			<li>4</li>
+		</ul>
+	</div>
+</body>
+<script>
+	new Vue({
+		el: '#root',
+		data: {
+			name: '尚硅谷'
+		},
+		methods: {
+			showInfo() {
+				alert('同学，你好')
+			},
+			showMsg(val){
+				console.log(val);
+			},
+			demo(){
+				for(var i=0;i<10000;i++){
+					console.log('#');
+				}
+				console.log('累坏了');
+			}
+		}
+	})
+</script>
+
+</html>

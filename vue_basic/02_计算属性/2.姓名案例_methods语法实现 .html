@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>methods语法实现姓名案例</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        姓：<input type="text" v-model="firstName"><br>
+        名：<input type="text" v-model="lastName"><br>
+        全名：<span>{{fullName()}}</span>
+    </div>
+</body>
+<script>
+    new Vue({
+        el:'#root',
+        data:{
+			firstName:'张',
+			lastName:'三'
+        },
+        methods:{
+            fullName(){
+				return this.firstName + '-' + this.lastName
+			}
+        }
+    })
+</script>
+</html>

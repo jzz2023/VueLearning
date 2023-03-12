@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue检测数据改变原理</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <h2>学校名称：{{name}}</h2>
+        <h2>学校地址：{{addr}}</h2>
+    </div>
+</body>
+<script>
+    const vm = new Vue({
+        el:'#root',
+        data:{
+            name:'石家庄铁道大学',
+            addr:'河北省石家庄'
+        }
+    })
+</script>
+</html>

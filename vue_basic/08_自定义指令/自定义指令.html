@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>自定义指令</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+<!--
+    自定义指令总结：
+        定义语法：
+        （1）局部指令：
+            newVue(t new VueCf
+            directives:（指令名：配置对象） 或 directives(指令名：回调函数){
+            }）
+        （2）.全局指令：
+            Vue.directive（指令名，配置对象）或 Vue.directive（指令名，回调函数）
+        二、配置对象中常用的3个回调：
+            （1）.bind：指令与元素成功绑定时调用。
+            （2）.inserted：指令所在元素被插入页面时调用
+            （3）.update：指令所在模板结构被重新解析时调用。
+        三、备注：
+            1.指令定义时不加V-，但使用时要加V-；
+            2.指令名如果是多个单词，要使用kebab-case(例：user-name)命名方式，不要用camelcase（驼峰命名）命名。
+-->
+<div id="root">
+    <h2>当前的n值：<span v-text="n"></span></h2>
+    <h2>放大10倍的n值：<span v-big="n"></span></h2>
+    <button @click="n++">点我n+1</button>
+    <hr>
+    <input type="text" v-fbind:value="n">
+</div>
+</body>
+<script>
+<!--    全局指令定义与过滤器相似-->
+    new Vue({
+        el:'#root',
+        data:{
+            n:1
+        },
+        directives:{
+            //big何时会被调用？
+            //1指令与元素成功绑定时。2指令模板被重新解析时
+            big(element,binding){
+                console.log('big',this) //此处的this是window
+                element.innerText = binding.value*10
+            },
+            fbind:{
+            //指令与元素成功绑定
+                bind(el,binding){
+                    el.value=binding.value
+                },
+            //    指令所在元素被插入页面
+                inserted(el,binding){
+                    el.focus()
+                },
+            //    指令所在模板被重新解析
+                update(el,binding){
+                    el.focus()
+                }
+            }
+        }
+    })
+</script>
+</html>

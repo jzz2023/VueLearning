@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>天气案例</title>
+		<script src="../js/vue.js"></script>
+	</head>
+	<body>
+		<!-- 
+		 深度监视：
+		 (1).Vue中的watch然认不监测对象内部值的改变（一层）。
+		 (2).配置deep:true可以监测对象内部值改变（多层）。
+		 备注：
+		 (I),Vue自身可以监测对象内部值的改变，但Vue提供的watch默认不可以！
+		 (2),使用watch时根据数据的具体结构，决定是否采用深度监视。
+		 -->
+		<div id="root">
+			<h2>今天天气很{{info}}</h2>
+			<button @click="changeWeather">切换</button>
+			<hr>
+			<h3>a的值{{numbers.a}}</h3>
+			<button @click="numbers.a++">点我a++</button>
+			<h3>b的值{{numbers.b}}</h3>
+			<button @click="numbers.b++">点我b++</button>
+		</div>
+	</body>
+	<script>
+		const vm = new Vue({
+			el: '#root',
+			data: {
+				isHot: true,
+				numbers:{
+					a:1,
+					b:2
+				}
+			},
+			computed: {
+				info() {
+					return this.isHot ? '炎热' : '凉爽'
+				}
+			},
+			methods: {
+				changeWeather() {
+					this.isHot = !this.isHot
+				}
+			},
+			// 第一种 实现监视
+			watch: {
+				isHot:{
+					// immediate:true, //初始化时让handler调用
+					// handler什么时候调用
+					handler(){
+						console.log("ishot被修改了");
+					}
+				},
+				// 多级结构，某个属性变化
+				// 'numbers.a':{
+				// 	handler(){
+				// 		console.log('a发生变化');
+				// 	}
+				// }
+				
+				//多级结构，所有属性变化
+				 numbers:{
+					 deep:true,
+					 handler(){
+						 console.log('numbers发生变化');
+					 }
+				 }
+			},
+		})
+	</script>
+</html>

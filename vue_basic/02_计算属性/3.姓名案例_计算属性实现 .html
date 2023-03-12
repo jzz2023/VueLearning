@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>methods语法实现姓名案例</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+    <!-- 
+        计算属性：
+            1.定义：要用的属性不存在，要通过已有属性计算得米。
+            2,原理：底层借助了Objcet,defineproperty方法提供的getter,和setter..
+            3,get函数什么时候执行？
+            (1),初次读取时会执行一次。
+            (2),当依赖的数据发生改变时会被再次调用。
+            4,优势：与nethods实现相比，内部有缓存机制（复用），效率更高，调试方便。
+            5.备注：
+            1,计算属性最终会出现在vm上，直接读取使用即可。
+            2,如果计算属性要被修改，那必须写set函数去响应修改，且set中要引起计算时依赖的数据发生改变
+     -->
+    <div id="root">
+        姓：<input type="text" v-model="firstName"><br>
+        名：<input type="text" v-model="lastName"><br>
+        全名：<span>{{fullName}}</span>
+    </div>
+</body>
+<script>
+    new Vue({
+        el:'#root',
+        data:{
+			firstName:'张',
+			lastName:'三'
+        },
+        // 计算属性
+        computed:{
+            /*fullName:{
+                // 当有人读取fullName时，get被调用，返回值是fullName的值
+                //get什么时候被调用？1、初次读取fullName；2、所依赖的数据发生变化
+                get(){
+                    return this.firstName+'-'+this.lastName
+                },
+                // set什么时候调用？fullName值被修改的时候
+                set(value){
+                    const arr = value.split('-')
+                    this.firstName=arr[0]
+                    this.lastName=arr[1]
+                }
+            }*/
+            // 简写，数据只读不改时使用
+            fullName:function(){
+                return this.firstName+'-'+this.lastName
+            }
+        }
+    })
+</script>
+</html>

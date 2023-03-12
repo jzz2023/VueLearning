@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>VueComponent</title>
+    <script src="../js/vue.js"></script>
+</head>
+<!--
+    关于VueComponent：
+        1、school组件本质是一个名为VueComponent的构造函数，由Vue.extend自动生成
+        2,我们只需要写4 school/>或<school></school>,Vue解析时会帮我们创建school组件的实例对象，
+            即Vue帮我们执行的：new VueComponent(options).
+        3.特别注意：每次调用Vue,extend,返回的都是一个全新的VueComponent!!!!
+        4,关于this指向：
+            (1).组件配置中：
+                data函数、methods中的函数、watch中的函数、computed中的函数它们的this均是[VueComponent实例对象]。
+            (2).new Vue（options）配置中：
+                data函数、methods中的函数、watch中的函数、computed中的函数它们的this均是[Vue实例对象]。
+        5,VueComponent的实例对象，以后简称vc(也可称之为：组件实例对象)。
+            Vue的实例对象，以后简称vm。
+-->
+<body>
+<div id="root">
+    <school></school>
+    <hello></hello>
+</div>
+</body>
+<script>
+    Vue.config.productionTip = false
+
+    //定义school组件
+    const school = Vue.extend({
+        template: '<div>' +
+            '<h2>学校名称：{{name}}</h2>' +
+            '<h2>学校地址：{{addr}}</h2>' +
+            '<button @click="showName">点我提示学校名</button>'+
+            '</div>',
+        data() {
+            return {
+                name: '石家庄铁道大学',
+                addr: '河北省石家庄'
+            }
+        },
+        methods:{
+            showName() {
+                //此处的this是VueComponent
+                console.log(this)
+                alert(this.name)
+            }
+        }
+    })
+
+    const jy = Vue.extend({
+        template:'<div>' +
+            '<h2>{{you}}</h2>' +
+            '</div>',
+        data(){
+            return{
+                you:'我'
+            }
+        }
+    })
+
+    const hello = Vue.extend({
+        template:'<div>' +
+            '<h2>{{msg}}</h2>' +
+            '<jy></jy>'+
+            '</div>',
+        data(){
+            return{
+                msg:'你好'
+            }
+        },
+        components:{
+            jy:jy
+        }
+    })
+
+
+
+    new Vue({
+        el: '#root',
+        components: {
+            school,
+            hello
+        }
+    })
+</script>
+</html>

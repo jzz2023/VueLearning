@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 数据代理：通过一个对象代理对另一个对象的操作 -->
+    <script>
+        let number = 18
+        let person = {
+            name:'张三',
+            sex:'男'
+        }
+
+        // Object.defineproperty方法
+        Object.defineProperty(person,'age',{
+            /* value:18,
+            enumerable:true, //控制属性是否可以枚举
+            writable:true, //控制属性是否可以被修改
+            configurable:true //控制属性是否可以被删除 */
+
+            // 当有人读取person的age属性时，get(getter)调用，返回值为age的值
+            get(){
+                return number
+            },
+
+            // 有人修改person的age属性时，set(setter)调用，会受到修改的具体值
+            set(value){
+                console.log('有人修改了age属性，值为',value);
+                number = value
+            }
+        })
+
+        console.log(Object.keys(person));
+    </script>
+</body>
+</html>

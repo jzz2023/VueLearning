@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>vue检测数据改变原理</title>
+		<script src="../js/vue.js"></script>
+	</head>
+	<body>
+		<!-- 
+			操作数组
+				push()在最后添加元素
+				pop()删除最后一个元素
+				shift()删除第一个元素
+				unshift()在最开始添加元素
+				splice()替换元素
+				sort()数组排序
+				reverse()数组逆序
+		 -->
+		<div id="root">
+			<h2>学校名称：{{name}}</h2>
+			<h2>学校地址：{{addr}}</h2>
+			<hr>
+			<button @click="addSex">点我添加性别</button>
+			<h2>年龄：{{student.age.rAge}},对外{{student.age.sAge}}</h2>
+			<h2 v-if="student.sex">性别：{{student.sex}}</h2>
+			<h3>朋友们</h3>
+			<ul>
+				<li v-for="f of student.friends">
+					{{f.name}}--{{f.age}}
+				</li>
+			</ul>
+			<h3>爱好</h3>
+			<ul>
+				<li v-for="(h,index) of student.hobby" :key="index">
+					{{h}}
+				</li>
+			</ul>
+			<h3>会和我睡的女人</h3>
+			<ul>
+				<li v-for="(g,index) of girls" :key="index">
+					{{g}}
+				</li>
+			</ul>
+		</div>
+	</body>
+	<script>
+		const vm = new Vue({
+			el: '#root',
+			data: {
+				name: '石家庄铁道大学',
+				addr: '河北省石家庄',
+				student: {
+					name: 'tom',
+					age: {
+						rAge: 19,
+						sAge: 20
+					},
+					hobby:['钞票','美女','游戏'],
+					friends: [
+						{name: 'danny',age: 35},
+						{name:'tony',age:34}
+					]
+				},
+				girls:['马佳瑶','李翠冉','王佳瑶','妻子']
+			},
+			methods: {
+				addSex(){
+					// Vue.set(this.student,'sex','男')
+					this.$set(this.student,'sex','男')
+				}
+			},
+		})
+	</script>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>v-text指令</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+<!--
+    v-text:
+        作用：向其所在节点渲染文本内容
+        v-text会替换掉节点中内容，{{xx}}不会
+-->
+<div id="root">
+    <div>{{name}}</div>
+    <div v-text="name"></div>
+    <div v-text="addr"></div>
+</div>
+</body>
+<script>
+    new Vue({
+        el:'#root',
+        data:{
+            name:'石家庄铁道大学',
+            addr:'<h2>石家庄</h2>'
+        }
+    })
+</script>
+</html>

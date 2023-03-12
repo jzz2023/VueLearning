@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>分析生命周期</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+<div id="root">
+    <h2 v-once>n的最初值：{{n}}</h2>
+    <h2>当前的n值：{{n}}</h2>
+    <button @click="add">点我n+1</button>
+    <button @click="bye">点我销毁vm</button>
+</div>
+</body>
+<script>
+    new Vue({
+        el: '#root',
+        data: {
+            n: 1
+        },
+        // template:'' +
+        //     '<div>' +
+        //     '<h2>你好</h2>' +
+        //     '</div>', 使用template解析时会删掉渲染的容器框架
+        beforeCreate(){
+            console.log('执行之前')
+            // console.log(this) //此处this没有_data
+        },
+        created(){
+            console.log('created')
+            // console.log(this) //此处this有_data 数据监测、数据代理完成
+        },
+        beforeMount(){
+            console.log('此处数据已经解析完成，没来得及渲染页面，所有对DOM的操作都不奏效')
+        },
+        mounted(){
+            console.log('mounted',this.$el) //this.$el是真实dom元素
+        },
+        beforeUpdate(){
+            console.log('数据更新之前')
+        },
+        updated(){
+            console.log('数据更新之后')
+        },
+        //对数据的修改不在奏效
+        beforeDestroy(){
+            console.log('beforeDestroy')
+        },
+        destroyed(){
+            console.log('destroyed')
+        },
+        methods: {
+            add() {
+                this.n++
+            },
+            bye(){
+                //vm.$destroy()完全销毁一个实例，清理与其他实例的链接，解绑它的全部指令及事件监听器
+                this.$destroy()
+            }
+        }
+    })
+</script>
+</html>

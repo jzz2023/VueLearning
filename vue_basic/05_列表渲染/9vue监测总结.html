@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>数据监测总结</title>
+		<script src="../js/vue.js"></script>
+	</head>
+	<body>
+		<!-- 
+			Vue监视数据的原理：
+	1,vue会监视data中所有层次的数据。
+	2,如何监测对象中的数据？
+		通过setter实现监视，且要在new Vuel时就传入要监测的数据。
+		(1).对象中后追加的属性，Vue默认不做响应式处理
+		(2).如需给后添加的属性做响应式，请使用如下API:
+		Vue.set(target,propertyName/index,value)
+		或
+		vm.$set(target,propertyName/index,value)
+	3,如何监测数组中的数据？
+		通过包裹数组更新元素的方法实现，本质就是做了两件事：
+		(1).调用原生对应的方法对数组进行更新。
+		(2),重新解析模板，进而更新页面。
+	4.在Vue修改数组中的某个元素一定要用如下方法：
+		1.使用这些API:push（）、pop（）、shift（）、unshift（）、splice（）、sort（）、reverse（）
+		2.Vue.set（）vm.$set（）
+	特别注意：Vue,set（）和vm.$set（）不能给vm或vm的根数据对象添加属性！！！
+		 -->
+		<div id="root">
+			<h2>学生信息</h2>
+			<button @click="student.age ++">年龄+1岁</button><br />
+			<button @click="addSex">添加性别属性，默认值：男</button> <br />
+			<button @click="addFriend">在列表首位添加一个朋友</button><br />
+			<button @click="modifyName">修改第一个朋友的名字为：张三</button> <br />
+			<button @click="addHobby">添加一个爱好</button><br />
+			<button @click="modifyHobby">修改第一个爱好为：开车</button>
+			<button @click="filterHobby">过滤爱好</button>
+			<br>
+			<h3>姓名:{{student.name}}</h3>
+			<h3>年龄:{{student.age}}</h3>
+			<h3 v-if="student.sex">性别：{{student.sex}}</h3>
+			<h3>朋友们</h3>
+			<ul>
+				<li v-for="f of student.friends">
+					{{f.name}}--{{f.age}}
+				</li>
+			</ul>
+			<h3>爱好</h3>
+			<ul>
+				<li v-for="(h,index) of student.hobby" :key="index">
+					{{h}}
+				</li>
+			</ul>
+		</div>
+	</body>
+	<script>
+		const vm = new Vue({
+			el: '#root',
+			data: {
+				student: {
+					name: 'tom',
+					age:19,
+					hobby:['钞票','美女','游戏'],
+					friends: [
+						{name: 'danny',age: 35},
+						{name:'tony',age:34}
+					]
+				}
+			},
+			methods: {
+				addSex(){
+					Vue.set(this.student,'sex','男')
+				},
+				addFriend(){
+					this.student.friends.unshift({name:'jack',age:29})
+				},
+				modifyName(){
+					this.student.friends[0].name="张三"
+					// this.student.friends.splice(0,1,{name:'张三',age:35})
+				},
+				addHobby(){
+					this.student.hobby.push('权力')
+				},
+				modifyHobby(){
+					// 第0个开始，删一个，改为str
+					this.student.hobby.splice(0,1,'开车')
+				},
+				filterHobby(){
+					this.student.hobby = this.student.hobby.filter((h)=>{
+						return h !== "游戏"
+					})
+				}
+			},
+		})
+	</script>
+</html>
